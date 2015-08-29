@@ -1,6 +1,10 @@
 language: node_js
 node_js:
   - "0.12.7"
+install: 
+  - "npm install"
+  - "npm install bower -g"
+  - "bower install"
 before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
