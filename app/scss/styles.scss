@@ -1,0 +1,11 @@
+@import 'susy/sass/susy';
+@import 'testing';
+
+.testing {
+  display: flex;
+  width: percentage(5/7); 
+}
+
+.susy-test {
+  @include span(2);
+}
