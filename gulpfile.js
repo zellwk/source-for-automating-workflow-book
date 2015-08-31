@@ -26,11 +26,10 @@ function customPlumber(errTitle) {
   if (ci) {
     return plumber({
       errorHandler: function(err) {
-        console.log(err.message);
         throw Error(gutil.colors.red(err.message));
-        process.emit('exit')
       }
     });
+    return gutil.noop();
   } else {    
     return plumber({
     errorHandler: notify.onError({
@@ -173,7 +172,6 @@ gulp.task('test', function(done) {
 });
 
 gulp.task('dev-ci', function(callback) {
-  ci = true;
   runSequence(
     'clean:dev',
     ['sprites', 'lint:js', 'lint:scss'],
