@@ -1,8 +1,8 @@
 $(document).ready(function() {
   if ('testing' == 'testing') {
-    // Note: Cannot have console log in tests 
+    // Note: Cannot have console log in tests
     // or Karma will return an error
-    // console.log("testing");  
+    // console.log("testing");
   }
 });
 

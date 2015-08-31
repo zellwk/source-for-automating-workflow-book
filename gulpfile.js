@@ -16,14 +16,19 @@ var runSequence = require('run-sequence');
 var jshint = require('gulp-jshint');
 var jscs = require('gulp-jscs');
 var scssLint = require('gulp-scss-lint');
-
+var gutil = require('gulp-util');
 var Server = require('karma').Server;
+
+var ci = false;
 
 // Custom Plumber function for catching errors
 function customPlumber(errTitle) {
   if (ci) {
-    console.log('plumber only');
-    return plumber();
+    return plumber({
+      errorHandler: function (err) {
+        throw Error(gutil.colors.red(err.message));
+      }
+    });
   } else {    
     return plumber({
     errorHandler: notify.onError({
@@ -137,11 +142,11 @@ gulp.task('lint:js', function() {
   return gulp.src('app/js/**/*.js')
   .pipe(customPlumber('JSHint Error'))
   .pipe(jshint())
+  .pipe(jshint.reporter('jshint-stylish'))
   .pipe(jshint.reporter('fail', {
     ignoreWarning: true,
     ignoreInfo: true
-  }))
-  .pipe(jshint.reporter('jshint-stylish'))
+  })) 
     .pipe(jscs({
     fix: true,
     configPath: '.jscsrc'
@@ -166,7 +171,7 @@ gulp.task('test', function(done) {
 });
 
 gulp.task('dev-ci', function(callback) {
-  var ci = true;
+  ci = true;
   runSequence(
     'clean:dev',
     ['sprites', 'lint:js', 'lint:scss'],

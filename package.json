@@ -25,6 +25,7 @@
     "gulp-sass": "^2.0.4",
     "gulp-scss-lint": "^0.2.4",
     "gulp-sourcemaps": "^1.5.2",
+    "gulp-util": "^3.0.6",
     "gulp.spritesmith": "^4.0.0",
     "jasmine-core": "^2.3.4",
     "jshint-stylish": "^2.0.1",
