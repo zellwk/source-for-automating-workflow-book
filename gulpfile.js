@@ -165,7 +165,7 @@ gulp.task('test', function(done) {
   }, done).start();
 });
 
-gulp.task('dev-ci', function() {
+gulp.task('dev-ci', function(callback) {
   var ci = true;
   runSequence(
     'clean:dev',
