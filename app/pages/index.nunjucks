@@ -4,7 +4,8 @@
 
 <h1>This is the index page</h1>
 
-{% include "partials/navigation.nunjucks"%}
+{% include "partials/navigation.nunjucks" %}
+{%  blah %}
 
 <div class="gallery">
   {% for image in images %}
