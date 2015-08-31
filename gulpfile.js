@@ -24,7 +24,7 @@ function customPlumber(errTitle) {
   if (process.env.CI) {
     return plumber({
       errorHandler: function(err) {
-        throw Error(err.message);
+        throw Error(gutil.colors.red(err.message));
       }
     });
   } else {    
