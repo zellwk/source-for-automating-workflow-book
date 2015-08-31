@@ -19,17 +19,14 @@ var scssLint = require('gulp-scss-lint');
 var gutil = require('gulp-util');
 var Server = require('karma').Server;
 
-var ci = false;
-
 // Custom Plumber function for catching errors
 function customPlumber(errTitle) {
-  if (ci) {
+  if (process.env.CI) {
     return plumber({
       errorHandler: function(err) {
         throw Error(gutil.colors.red(err.message));
       }
     });
-    return gutil.noop();
   } else {    
     return plumber({
     errorHandler: notify.onError({
