@@ -21,13 +21,18 @@ var Server = require('karma').Server;
 
 // Custom Plumber function for catching errors
 function customPlumber(errTitle) {
-  return plumber({
+  if (ci) {
+    console.log('plumber only');
+    return plumber();
+  } else {    
+    return plumber({
     errorHandler: notify.onError({
       // Customizing error title
       title: errTitle || 'Error running Gulp',
       message: 'Error: <%= error.message %>',
     })
   });
+  }
 }
 
 // Hello task
@@ -159,3 +164,13 @@ gulp.task('test', function(done) {
     singleRun: true
   }, done).start();
 });
+
+gulp.task('dev-ci', function() {
+  var ci = true;
+  runSequence(
+    'clean:dev',
+    ['sprites', 'lint:js', 'lint:scss'],
+    ['sass', 'nunjucks'],
+    callback
+    );
+})
