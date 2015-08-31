@@ -25,8 +25,10 @@ var ci = false;
 function customPlumber(errTitle) {
   if (ci) {
     return plumber({
-      errorHandler: function (err) {
+      errorHandler: function(err) {
+        console.log(err.message);
         throw Error(gutil.colors.red(err.message));
+        process.emit('exit')
       }
     });
   } else {    
@@ -147,7 +149,7 @@ gulp.task('lint:js', function() {
     ignoreWarning: true,
     ignoreInfo: true
   })) 
-    .pipe(jscs({
+  .pipe(jscs({
     fix: true,
     configPath: '.jscsrc'
   }))
