@@ -3,13 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <title>{{siteTitle}}</title>
+
+  <!-- build:css css/styles.min.css -->
   <link rel="stylesheet" href="css/styles.css">
+  <!-- endbuild -->  
+  
 </head>
 <body>
   
   {% block content %} {% endblock %}
 
+  <!-- build:js js/main.min.js -->
   <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="js/second.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/testing.js"></script>
+  <!-- endbuild -->
 </body>
 </html>

@@ -16,11 +16,36 @@ var runSequence = require('run-sequence');
 var jshint = require('gulp-jshint');
 var jscs = require('gulp-jscs');
 var scssLint = require('gulp-scss-lint');
-var gutil = require('gulp-util');
 var Server = require('karma').Server;
+var gutil = require('gulp-util');
+var useref = require('gulp-useref');
+var uglify = require('gulp-uglify');
+var debug = require('gulp-debug');
+var cached = require('gulp-cached');
+var unCss = require('gulp-uncss');
+var minifyCss = require('gulp-minify-css');
+var imagemin = require('gulp-imagemin');
+var cache = require('gulp-cache');
+var newer = require('gulp-newer');
+var rev = require('gulp-rev');
+var revReplace = require('gulp-rev-replace');
+
+// ===========
+// INTRO PHASE
+// ===========
+
+// Hello task
+gulp.task('hello', function() {
+  console.log('Hello Zell');
+});
+
+// =================
+// DEVELOPMENT PHASE
+// =================
 
 // Custom Plumber function for catching errors
 function customPlumber(errTitle) {
+  // Determining whether plumber is ran by Travis
   if (process.env.CI) {
     return plumber({
       errorHandler: function(err) {
@@ -37,11 +62,6 @@ function customPlumber(errTitle) {
   });
   }
 }
-
-// Hello task
-gulp.task('hello', function() {
-  console.log('Hello Zell');
-});
 
 // Clean
 gulp.task('clean:dev', function(callback) {
@@ -135,6 +155,10 @@ gulp.task('default', function(callback) {
     );
 });
 
+// =============
+// TESTING PHASE
+// =============
+
 // Linting JavaScript
 gulp.task('lint:js', function() {
   return gulp.src('app/js/**/*.js')
@@ -155,9 +179,9 @@ gulp.task('lint:js', function() {
 // Linting Scss
 gulp.task('lint:scss', function() {
   return gulp.src('app/scss/**/*.scss')
-  .pipe(scssLint({
-    config: '.scss-lint.yml'
-  }));
+    .pipe(scssLint({
+      config: '.scss-lint.yml'
+    }));
 });
 
 // Test
@@ -168,11 +192,95 @@ gulp.task('test', function(done) {
   }, done).start();
 });
 
+// =================
+// INTEGRATION PHASE
+// =================
+
 gulp.task('dev-ci', function(callback) {
   runSequence(
     'clean:dev',
     ['sprites', 'lint:js', 'lint:scss'],
     ['sass', 'nunjucks'],
+    callback
+    );
+})
+
+// ==================
+// OPTIMIZATION PHASE
+// ==================
+
+// JavaScript and CSS
+gulp.task('useref', function() {
+  var assets = useref.assets();
+
+  return gulp.src('app/*.html')
+    .pipe(assets)
+    .pipe(cached('useref'))
+    .pipe(gulpIf('*.js', uglify()))
+    .pipe(gulpIf('*.css', unCss({
+      html: ['app/*.html'],
+      ignore: [
+        '.susy-test',
+        /.is-/,
+        /.has-/
+        ]
+    })))
+    .pipe(gulpIf('*.css', minifyCss()))
+    .pipe(rev())
+    .pipe(assets.restore())
+    .pipe(useref())
+    .pipe(revReplace())
+    .pipe(gulp.dest('dist'));
+});
+
+// Images (With Gulp-caches)
+gulp.task('images', function() {
+  return gulp.src('app/images/**/*.+(png|jpg|jpeg|gif|svg)')
+    .pipe(cache(imagemin(), {
+      name: 'project'
+    }))
+    .pipe(gulp.dest('dist/images'))
+})
+
+// Clearing caches
+gulp.task('cache:clear', function(callback) {
+  return cache.clearAll(callback);
+})
+
+// Images (With Gulp Newer)
+// gulp.task('images', function() {
+//   return gulp.src('app/images/**/*.+(png|jpg|jpeg|gif|svg)')
+//     .pipe(newer('dist/images'))
+//     .pipe(imagemin())
+//     .pipe(gulp.dest('dist/images'))
+// })
+
+// Copying fonts
+gulp.task('fonts', function () {
+  return gulp.src('app/fonts/**/*')
+    .pipe(gulp.dest('dist/fonts'))
+});
+
+// Cleaning (With gulp-cache)
+gulp.task('clean:dist', function (callback){
+    del(['dist'], callback);
+})
+
+// Cleaning (with gulp-newer)
+// gulp.task('clean:dist', function (callback) {
+//   del([
+//     'dist/**/*', 
+//     '!dist/images',
+//     '!dist/images/**/*'
+//   ], callback)
+// })
+
+gulp.task('build', function(callback) {
+  runSequence(
+    ['clean:dev', 'clean:dist'],
+    ['sprites', 'lint:js', 'lint:scss'],
+    ['sass', 'nunjucks'],
+    ['useref', 'images', 'fonts', 'test'],
     callback
     );
 })

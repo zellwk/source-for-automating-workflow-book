@@ -1,9 +1,9 @@
 $(document).ready(function() {
   'use strict';
-  if ('testing' === 'testing') {
+  if ('testing' == 'testing') {
     // Note: Cannot have console log in tests
     // or Karma will return an error
-    // console.log("testing");
+    console.log('testing');
   }
 });
 

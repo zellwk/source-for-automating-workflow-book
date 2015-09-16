@@ -9,3 +9,20 @@
 .susy-test {
   @include span(2);
 }
+
+.is-active {
+  color: red;
+}
+
+.has-border {
+  border: 2px solid black;
+}
+
+/* uncss:ignore */
+.ignored-selector {
+  color: red;
+}
+
+.removed-selector {
+  color: blue;
+}
