@@ -14,7 +14,11 @@ node_modules
 bower_components
 jspm_packages
 
-#ignore generated files 
+#ignore generated files and folders
+.publish
 *.html
 *.css
 dist
+
+# Ignore secrets
+secrets.json
