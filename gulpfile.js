@@ -340,7 +340,7 @@ gulp.task('gh-pages', function() {
   .pipe(ghPages());
 });
 
-gulp.task('amazon', () => {
+gulp.task('amazon', function () {
   gulp.src('./dist/**/*')
   .pipe(s3({
     // Keep everything here in secrets.json
