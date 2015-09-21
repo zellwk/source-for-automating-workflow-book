@@ -35,7 +35,10 @@ var ftp = require('vinyl-ftp');
 
 
 // Getting sensitive info
-var creds = JSON.parse(fs.readFileSync('./secrets.json'));
+var creds; 
+if (!process.env.CI) {
+  creds = JSON.parse(fs.readFileSync('./secrets.json'));
+}
 
 // ===========
 // INTRO PHASE
