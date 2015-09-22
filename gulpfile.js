@@ -8,7 +8,6 @@ var sourcemaps = require('gulp-sourcemaps');
 var spritesmith = require('gulp.spritesmith');
 var gulpIf = require('gulp-if');
 var nunjucksRender = require('gulp-nunjucks-render');
-var rename = require('gulp-rename');
 var data = require('gulp-data');
 var fs = require('fs');
 var del = require('del');
@@ -145,10 +144,6 @@ gulp.task('nunjucks', function() {
       return JSON.parse(fs.readFileSync('./app/data.json'));
     }))
     .pipe(nunjucksRender())
-    // TODO: Remove rename, because it's automatically .html
-    // .pipe(rename(function(path) {
-    //   path.extname = '.html';
-    // }))
     .pipe(gulp.dest('app'))
     .pipe(browserSync.reload({
       stream: true
