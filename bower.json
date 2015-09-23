@@ -16,6 +16,6 @@
   ],
   "dependencies": {
     "jquery": "~2.1.4",
-    "susy": "~2.2.5"
+    "susy": "~2.2.6"
   }
 }
