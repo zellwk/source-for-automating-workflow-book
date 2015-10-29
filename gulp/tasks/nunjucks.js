@@ -2,6 +2,7 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var browserSync = require('browser-sync');
+var fs = require('fs');
 
 // require custom modules
 var customPlumber = require('../custom-modules/plumber');
