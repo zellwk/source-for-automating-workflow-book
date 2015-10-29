@@ -4,7 +4,10 @@
 
 <h1>This is the index page</h1>
 
-{% include "partials/navigation.nunjucks" %}
+{% set activeMenu = "contact" %}
+
+{% import 'macros/navigation.nunjucks' as nav %}
+{{nav.active(activeMenu)}}
 
 <div class="testing">123123</div>
 
@@ -14,6 +17,8 @@
     <img src="{{image.src}}" alt="{{image.alt}}">
   </div>
   {% endfor %}
+
 </div>
+<div class="github"></div>
 
 {% endblock %}

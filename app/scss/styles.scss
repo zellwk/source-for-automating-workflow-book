@@ -1,9 +1,10 @@
-@import 'susy/sass/susy';
-@import 'testing';
+@import "susy/sass/susy";
+@import 'sprites';
+@import "testing";
 
 .testing {
   display: flex;
-  width: percentage(5/7); 
+  width: percentage(5 / 7);
 }
 
 .susy-test {
@@ -25,4 +26,8 @@
 
 .removed-selector {
   color: blue;
+}
+
+.github {
+  @include retina-sprite($github-group);
 }
