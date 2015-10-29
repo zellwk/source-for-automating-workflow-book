@@ -10,5 +10,4 @@ $(document).ready(function() {
 function add(int1, int2) {
   'use strict';
   return int1 + int2;
-  
 }

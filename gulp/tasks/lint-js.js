@@ -13,7 +13,7 @@ gulp.task('lint:js', function() {
     .pipe(customPlumber('JSHint Error'))
     .pipe($.jshint())
     .pipe($.jshint.reporter('jshint-stylish'))
-    .pipe($.jshint.reporter('fail', config.jshint.repoterOptions))
+    .pipe($.jshint.reporter('fail', config.jshint.reporterOptions))
     .pipe($.jscs(config.jscs.options))
     .pipe(gulp.dest(config.jscs.dest));
 });
