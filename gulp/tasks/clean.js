@@ -2,24 +2,23 @@ var gulp = require('gulp');
 var del = require('del');
 
 // Clean
-gulp.task('clean:dev', function(callback) {
-  del([
+gulp.task('clean:dev', function() {
+  return del.sync([
     'app/css',
-    'app/*.+(html|nunjucks)'
-  ], callback);
+    'app/*.html'
+  ]);
 });
 
-
 // Cleaning dist (With gulp-cache)
-gulp.task('clean:dist', function(callback) {
-  del(['dist'], callback);
+gulp.task('clean:dist', function() {
+  return del.sync(['dist']);
 })
 
 // Cleaning (with gulp-newer)
 // gulp.task('clean:dist', function (callback) {
-//   del([
+//   return del.sync([
 //     'dist/**/*', 
 //     '!dist/images',
 //     '!dist/images/**/*'
-//   ], callback)
+//   ])
 // })

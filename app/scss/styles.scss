@@ -28,6 +28,13 @@
   color: blue;
 }
 
+// .github {
+//   @include retina-sprite($github-group);
+// }
+// 
 .github {
-  @include retina-sprite($github-group);
+  background-image: url('../images/sprites.png');
+  background-position: -149px 0;
+  width: 142px;
+  height: 120px; 
 }
