@@ -7,17 +7,14 @@ var config = require('../config');
 
 // JavaScript and CSS
 gulp.task('useref', function() {
-  var assets = $.useref.assets();
-
   return gulp.src(config.useref.src)
-    .pipe(assets)
-    .pipe($.cached('useref'))
+    .pipe($.useref())
+    // .pipe($.cached('useref'))
     .pipe($.if('*.js', $.uglify()))
     .pipe($.if('*.css', $.uncss(config.uncss.options)))
     .pipe($.if('*.css', $.minifyCss()))
-    .pipe($.rev())
-    .pipe(assets.restore())
-    .pipe($.useref())
+    .pipe($.if('*.js', $.rev()))
+    .pipe($.if('*.css', $.rev()))
     .pipe($.revReplace())
     .pipe(gulp.dest(config.useref.dest));
 });
