@@ -9,10 +9,10 @@ var config = require('../config');
 gulp.task('useref', function() {
   return gulp.src(config.useref.src)
     .pipe($.useref())
-    // .pipe($.cached('useref'))
+    .pipe($.cached('useref'))
     .pipe($.if('*.js', $.uglify()))
     .pipe($.if('*.css', $.uncss(config.uncss.options)))
-    .pipe($.if('*.css', $.minifyCss()))
+    .pipe($.if('*.css', $.cssnano()))
     .pipe($.if('*.js', $.rev()))
     .pipe($.if('*.css', $.rev()))
     .pipe($.revReplace())
